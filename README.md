@@ -8,6 +8,14 @@ Utiliza Docker para la instalación del servidor. La creación del archivo [dock
 
 Seguir los siguientes pasos:
 
+1. Crear un archivo .env réplica de env.sample y actualizar los valores de la variables de entorno.
+    ```
+    PGUSER="" # Usuario de la base de datos
+    PGPASSWORD="" # Contraseña para el usuario de base de datos
+    PGDATABASE="" # Nombre de la base de datos
+    PGHOST="" # Nombre del contenedor de la base de datos
+    ```
+
 1. Construir la imagen de Docker para stac-fastapi.
     ````
     docker compose -f docker-compose-io.yml build
