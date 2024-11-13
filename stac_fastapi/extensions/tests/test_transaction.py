@@ -176,7 +176,9 @@ def collection() -> Collection:
         "description": "A test collection",
         "extent": {
             "spatial": {"bbox": [[-180, -90, 180, 90]]},
-            "temporal": {"interval": [["2000-01-01T00:00:00Z", "2024-01-01T00:00:00Z"]]},
+            "temporal": {
+                "interval": [["2000-01-01T00:00:00Z", "2024-01-01T00:00:00Z"]]
+            },
         },
         "links": [],
         "assets": {},

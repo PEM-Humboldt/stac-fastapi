@@ -143,7 +143,9 @@ def AsyncTestCoreClient(collection_dict, item_dict):
                 type="FeatureCollection", features=[stac.Item(**item_dict)]
             )
 
-        async def get_item(self, item_id: str, collection_id: str, **kwargs) -> stac.Item:
+        async def get_item(
+            self, item_id: str, collection_id: str, **kwargs
+        ) -> stac.Item:
             return stac.Item(**item_dict)
 
         async def all_collections(self, **kwargs) -> stac.Collections:

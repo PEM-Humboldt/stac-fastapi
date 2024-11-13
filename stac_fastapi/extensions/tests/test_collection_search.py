@@ -166,12 +166,19 @@ def test_collection_search_extension_models():
             in conforms
         )
         assert (
-            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text" in conforms
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text"
+            in conforms
         )
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter" in conforms
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#query" in conforms
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter" in conforms
+        )
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#query" in conforms
+        )
         assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort" in conforms
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields" in conforms
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields" in conforms
+        )
 
         response = client.get("/collections")
         assert response.is_success, response.json()
@@ -331,12 +338,19 @@ def test_collection_search_extension_post_models():
             in conforms
         )
         assert (
-            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text" in conforms
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text"
+            in conforms
         )
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter" in conforms
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#query" in conforms
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter" in conforms
+        )
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#query" in conforms
+        )
         assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort" in conforms
-        assert "https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields" in conforms
+        assert (
+            "https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields" in conforms
+        )
 
         response = client.post("/collections", json={})
         assert response.is_success, response.json()

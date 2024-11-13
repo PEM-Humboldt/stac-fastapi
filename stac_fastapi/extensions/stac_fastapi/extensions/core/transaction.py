@@ -181,7 +181,9 @@ class TransactionExtension(ApiExtension):
             response_model_exclude_unset=True,
             response_model_exclude_none=True,
             methods=["PUT"],
-            endpoint=create_async_endpoint(self.client.update_collection, PutCollection),
+            endpoint=create_async_endpoint(
+                self.client.update_collection, PutCollection
+            ),
         )
 
     def register_delete_collection(self):
@@ -202,7 +204,9 @@ class TransactionExtension(ApiExtension):
             response_model_exclude_unset=True,
             response_model_exclude_none=True,
             methods=["DELETE"],
-            endpoint=create_async_endpoint(self.client.delete_collection, CollectionUri),
+            endpoint=create_async_endpoint(
+                self.client.delete_collection, CollectionUri
+            ),
         )
 
     def register_patch_collection(self):

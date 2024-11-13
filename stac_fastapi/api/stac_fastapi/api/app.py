@@ -1,6 +1,5 @@
 """Fastapi app creation."""
 
-
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 import attr
@@ -225,9 +224,9 @@ class StacApi:
         self.router.add_api_route(
             name="Search",
             path="/search",
-            response_model=api.ItemCollection
-            if self.settings.enable_response_models
-            else None,
+            response_model=(
+                api.ItemCollection if self.settings.enable_response_models else None
+            ),
             responses={
                 200: {
                     "content": {
@@ -254,9 +253,9 @@ class StacApi:
         self.router.add_api_route(
             name="Search",
             path="/search",
-            response_model=api.ItemCollection
-            if self.settings.enable_response_models
-            else None,
+            response_model=(
+                api.ItemCollection if self.settings.enable_response_models else None
+            ),
             responses={
                 200: {
                     "content": {
@@ -312,9 +311,9 @@ class StacApi:
         self.router.add_api_route(
             name="Get Collection",
             path="/collections/{collection_id}",
-            response_model=api.Collection
-            if self.settings.enable_response_models
-            else None,
+            response_model=(
+                api.Collection if self.settings.enable_response_models else None
+            ),
             responses={
                 200: {
                     "content": {
