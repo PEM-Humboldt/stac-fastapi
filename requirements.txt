@@ -1,0 +1,9 @@
+attrs
+orjson
+pydantic
+stac_pydantic==3.1.*
+asyncpg
+buildpg
+brotli_asgi
+pygeofilter>=0.2
+pypgstac>=0.8,<0.10

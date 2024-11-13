@@ -410,7 +410,7 @@ class StacApi:
         @mgmt_router.get("/_mgmt/ping")
         async def ping():
             """Liveliness/readiness probe."""
-            return {"message": "PONG"}
+            return {"message": "PONGO"}
 
         self.app.include_router(mgmt_router, tags=["Liveliness/Readiness"])
 
