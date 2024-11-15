@@ -52,10 +52,7 @@ def test_search_filter_post_filter_lang_default(client: TestClient):
         "/search",
         json={
             "collections": ["test"],
-            "filter": {
-                "op": "=",
-                "args": [{"property": "test_property"}, "test-value"],
-            },
+            "filter": {"op": "=", "args": [{"property": "test_property"}, "test-value"]},
         },
     )
     assert response.is_success, response.json()
@@ -70,10 +67,7 @@ def test_search_filter_post_filter_lang_non_default(client: TestClient):
         "/search",
         json={
             "collections": ["test"],
-            "filter": {
-                "op": "=",
-                "args": [{"property": "test_property"}, "test-value"],
-            },
+            "filter": {"op": "=", "args": [{"property": "test_property"}, "test-value"]},
             "filter-lang": filter_lang_value,
         },
     )

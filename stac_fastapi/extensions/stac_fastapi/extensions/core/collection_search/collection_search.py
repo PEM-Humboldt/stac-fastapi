@@ -52,9 +52,7 @@ class CollectionSearchExtension(ApiExtension):
             the extension
     """
 
-    GET: BaseCollectionSearchGetRequest = attr.ib(
-        default=BaseCollectionSearchGetRequest
-    )
+    GET: BaseCollectionSearchGetRequest = attr.ib(default=BaseCollectionSearchGetRequest)
     POST = None
 
     conformance_classes: List[str] = attr.ib(
@@ -91,9 +89,7 @@ class CollectionSearchPostExtension(CollectionSearchExtension):
             the extension
     """
 
-    client: Union[AsyncBaseCollectionSearchClient, BaseCollectionSearchClient] = (
-        attr.ib()
-    )
+    client: Union[AsyncBaseCollectionSearchClient, BaseCollectionSearchClient] = attr.ib()
     settings: ApiSettings = attr.ib()
     conformance_classes: List[str] = attr.ib(
         default=[ConformanceClasses.COLLECTIONSEARCH, ConformanceClasses.BASIS]
@@ -101,9 +97,7 @@ class CollectionSearchPostExtension(CollectionSearchExtension):
     schema_href: Optional[str] = attr.ib(default=None)
     router: APIRouter = attr.ib(factory=APIRouter)
 
-    GET: BaseCollectionSearchGetRequest = attr.ib(
-        default=BaseCollectionSearchGetRequest
-    )
+    GET: BaseCollectionSearchGetRequest = attr.ib(default=BaseCollectionSearchGetRequest)
     POST: BaseCollectionSearchPostRequest = attr.ib(
         default=BaseCollectionSearchPostRequest
     )

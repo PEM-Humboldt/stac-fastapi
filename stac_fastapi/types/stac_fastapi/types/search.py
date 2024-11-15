@@ -91,9 +91,7 @@ def _datetime_converter(
 Either a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots.""",  # noqa: E501
             openapi_examples={
                 "datetime": {"value": "2018-02-12T23:20:50Z"},
-                "closed-interval": {
-                    "value": "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
-                },
+                "closed-interval": {"value": "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"},
                 "open-interval-from": {"value": "2018-02-12T00:00:00Z/.."},
                 "open-interval-to": {"value": "../2018-03-18T12:31:12Z"},
             },
