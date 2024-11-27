@@ -13,7 +13,17 @@ Seguir los siguientes pasos:
     PGUSER="" # Usuario de la base de datos
     PGPASSWORD="" # Contraseña para el usuario de base de datos
     PGDATABASE="" # Nombre de la base de datos
+    SECRET_KEY = "" # Llave secreta para validar el token
+    ALGORITHM = "" # Algoritmo de firma utilizado para generar y verificar tokens , generalmente se usa este: "HS256"
+    USER_USERNAME = "" # Usuario utilizado para la autenticacion
+    USER_PASSWORD = "" # Contraseña utilizado para la autenticacion
+    ACCESS_TOKEN_EXPIRE_MINUTES = # Tiempo en minutos para la expiración del token
     ```
+   Nota: Para generar la llave secreta es necesario ejecutar esto en CMD o terminal de linux,adicional de tener una version de Python mayor a 3.6 instalada:
+   
+   ```
+   python -c "import secrets; print(secrets.token_hex(32))"
+   ```
 
 1. Construir la imagen de Docker para stac-fastapi.
     ````
