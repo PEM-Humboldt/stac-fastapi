@@ -17,6 +17,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
 
     if form_data.username != settings.user_username or form_data.password != settings.user_password:
+
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
