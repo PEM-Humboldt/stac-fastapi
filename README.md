@@ -19,7 +19,7 @@ Seguir los siguientes pasos:
     USER_PASSWORD = "" # Contraseña utilizado para la autenticacion
     ACCESS_TOKEN_EXPIRE_MINUTES = # Tiempo en minutos para la expiración del token
     ```
-   Nota: Para generar la llave secreta es necesario ejecutar esto en CMD o terminal de linux,adicional de tener una version de Python mayor a 3.6 instalada:
+   Nota: Para generar la llave secreta es necesario ejecutar esto en CMD o terminal de linux, adicional de tener una version de Python mayor a 3.6 instalada:
    
    ```
    python -c "import secrets; print(secrets.token_hex(32))"

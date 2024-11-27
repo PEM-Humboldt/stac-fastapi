@@ -95,3 +95,4 @@ def add_exception_handlers(
     app.add_exception_handler(
         RequestValidationError, request_validation_exception_handler
     )
+

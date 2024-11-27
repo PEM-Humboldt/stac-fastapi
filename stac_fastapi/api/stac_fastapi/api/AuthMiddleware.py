@@ -4,7 +4,7 @@ from stac_fastapi.api.auth import verify_token
 
 class AuthMiddleware:
     """
-    Middleware para validar el token en todas las rutas.
+    Middleware to validate the token on all routes
     """
     def __init__(self, app: FastAPI):
         self.app = app
@@ -13,11 +13,9 @@ class AuthMiddleware:
         if scope["type"] == "http":
             request = Request(scope, receive, send)
             path = scope.get("path", "")
-            method = request.method
 
             excluded_paths = ["/auth/token", "/docs", "/openapi.json"]
             if path not in excluded_paths:
-                # Obtener token del header Authorization
                 auth_header = request.headers.get("Authorization")
                 if not auth_header:
                     raise HTTPException(

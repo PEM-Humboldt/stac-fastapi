@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from fastapi import APIRouter, Depends, HTTPException, status, Security
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
-from stac_fastapi.types.config import Settings,ApiSettings
+from stac_fastapi.types.config import ApiSettings
 
 settings = ApiSettings()
 
@@ -11,7 +11,7 @@ auth_router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
-def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes=30)):
+def create_access_token(data: dict, expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)):
     to_encode = data.copy()
     expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
@@ -20,7 +20,7 @@ def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes
 
 @auth_router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    # Validar credenciales
+
     if form_data.username != settings.USER_USERNAME or form_data.password != settings.USER_PASSWORD:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
