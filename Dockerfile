@@ -1,7 +1,5 @@
 FROM python:3.11-slim as base
 
-# Any python libraries that require system libraries to be installed will likely
-# need the following packages in order to build
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y build-essential git && \
@@ -16,8 +14,12 @@ WORKDIR /app
 
 COPY . /app
 
-RUN python -m pip install stac-fastapi.types stac-fastapi.api stac-fastapi.extensions && \
-    python -m pip install stac-fastapi.sqlalchemy && \
-    python -m pip install stac-fastapi.pgstac
+RUN python -m pip install /app/stac_fastapi/types \
+                          /app/stac_fastapi/api \
+                          /app/stac_fastapi/extensions
 
-RUN pip install uvicorn
+RUN python -m pip install --no-deps stac-fastapi.pgstac
+
+RUN python -m pip install -r /app/requirements.pgstac.txt
+
+RUN python -m pip install uvicorn
