@@ -32,11 +32,11 @@ class ApiSettings(BaseSettings):
     openapi_url: str = "/api"
     docs_url: str = "/api.html"
 
-    SECRET_KEY: str
-    ALGORITHM: str
-    USER_USERNAME: str
-    USER_PASSWORD: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    secret_key: str = "default_secret_key"
+    algorithm: str = "HS256"
+    user_username: str = "default_user"
+    user_password: str = "default_password"
+    access_token_expire_minutes: int = 30
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
 
