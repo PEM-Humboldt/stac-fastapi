@@ -8,8 +8,6 @@ from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-from fastapi import HTTPException
-from stac_fastapi.api.exceptions import UnauthorizedException
 
 from stac_fastapi.types.errors import (
     ConflictError,
@@ -30,7 +28,6 @@ DEFAULT_STATUS_CODES = {
     Exception: status.HTTP_500_INTERNAL_SERVER_ERROR,
     InvalidQueryParameter: status.HTTP_400_BAD_REQUEST,
     ResponseValidationError: status.HTTP_500_INTERNAL_SERVER_ERROR,
-    UnauthorizedException: status.HTTP_401_UNAUTHORIZED,
 }
 
 
@@ -98,15 +95,3 @@ def add_exception_handlers(
     app.add_exception_handler(
         RequestValidationError, request_validation_exception_handler
     )
-
-    async def http_exception_handler(request: Request, exc: HTTPException):
-        logger.error(
-            f"HTTP Exception: {exc.detail} - Path: {request.url} - Method: {request.method}",
-            extra={"request_id": request.headers.get("X-Request-ID", "N/A")},
-        )
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"detail": exc.detail},
-        )
-
-    app.add_exception_handler(HTTPException, http_exception_handler)
