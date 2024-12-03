@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from jose import jwt, JWTError
+from jose import jwt, JWTError, ExpiredSignatureError
+from jose.exceptions import JWTClaimsError
+
 from stac_fastapi.types.config import ApiSettings
 
 settings = ApiSettings()
@@ -43,9 +45,9 @@ def verify_token(token: str):
                 headers={"WWW-Authenticate": "Bearer"},
             )
         return payload
-    except JWTError:
+    except JWTError|ExpiredSignatureError|JWTClaimsError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token",
+            detail=f"Error decoding token: {str(e)}",
             headers={"WWW-Authenticate": "Bearer"},
         )
