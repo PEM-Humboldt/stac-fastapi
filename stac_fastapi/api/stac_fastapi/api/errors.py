@@ -4,7 +4,7 @@ import logging
 from typing import Callable, Dict, Type, TypedDict
 
 from fastapi import FastAPI
-from fastapi.exceptions import RequestValidationError, ResponseValidationError, UnauthorizedError
+from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -14,6 +14,7 @@ from stac_fastapi.types.errors import (
     ForeignKeyError,
     InvalidQueryParameter,
     NotFoundError,
+    UnauthorizedError,
 )
 
 logger = logging.getLogger(__name__)

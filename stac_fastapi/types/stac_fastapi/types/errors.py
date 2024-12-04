@@ -39,3 +39,7 @@ class InvalidQueryParameter(StacApiError):
     """
 
     pass
+
+class UnauthorizedError(Exception):
+    """Raised when an unauthorized access is attempted."""
+    pass
