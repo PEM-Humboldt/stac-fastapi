@@ -3,7 +3,6 @@ from fastapi.security.utils import get_authorization_scheme_param
 from stac_fastapi.api.auth import verify_token
 from stac_fastapi.api.errors import UnauthorizedError
 
-
 class AuthMiddleware:
     """
     Middleware to validate the token on all routes

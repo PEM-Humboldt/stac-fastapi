@@ -4,7 +4,7 @@ import logging
 from typing import Callable, Dict, Type, TypedDict
 
 from fastapi import FastAPI
-from fastapi.exceptions import RequestValidationError, ResponseValidationError
+from fastapi.exceptions import RequestValidationError, ResponseValidationError, UnauthorizedError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -17,12 +17,6 @@ from stac_fastapi.types.errors import (
 )
 
 logger = logging.getLogger(__name__)
-
-
-class UnauthorizedError(Exception):
-    """Raised when an unauthorized access is attempted."""
-    pass
-
 
 DEFAULT_STATUS_CODES = {
     NotFoundError: status.HTTP_404_NOT_FOUND,
@@ -62,8 +56,8 @@ def exception_handler_factory(status_code: int) -> Callable:
     """
 
     def handler(request: Request, exc: Exception):
-        """Handle exceptions in a uniform way."""
-        logger.error(f"Exception: {exc} - Path: {request.url} - Method: {request.method}")
+        """I handle exceptions!!."""
+        logger.error(exc, exc_info=True)
         return JSONResponse(
             content=ErrorResponse(code=exc.__class__.__name__, description=str(exc)),
             status_code=status_code,
@@ -87,13 +81,13 @@ def add_exception_handlers(
     for exc, code in status_codes.items():
         app.add_exception_handler(exc, exception_handler_factory(code))
 
-    # Customize handling of request validation errors
+    # By default FastAPI will return 422 status codes for invalid requests
+    # But the STAC api spec suggests returning a 400 in this case
     def request_validation_exception_handler(
         request: Request, exc: RequestValidationError
     ) -> JSONResponse:
-        logger.error(f"Validation Error: {exc} - Path: {request.url} - Method: {request.method}")
         return JSONResponse(
-            content=ErrorResponse(code=exc.__class__.__name__, description="Invalid request format"),
+            content=ErrorResponse(code=exc.__class__.__name__, description=str(exc)),
             status_code=status.HTTP_400_BAD_REQUEST,
         )
 
