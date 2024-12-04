@@ -8,9 +8,6 @@ from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-from fastapi import HTTPException
-from stac_fastapi.api.exceptions import UnauthorizedException
-
 from stac_fastapi.types.errors import (
     ConflictError,
     DatabaseError,
@@ -22,6 +19,11 @@ from stac_fastapi.types.errors import (
 logger = logging.getLogger(__name__)
 
 
+class UnauthorizedError(Exception):
+    """Raised when an unauthorized access is attempted."""
+    pass
+
+
 DEFAULT_STATUS_CODES = {
     NotFoundError: status.HTTP_404_NOT_FOUND,
     ConflictError: status.HTTP_409_CONFLICT,
@@ -30,7 +32,7 @@ DEFAULT_STATUS_CODES = {
     Exception: status.HTTP_500_INTERNAL_SERVER_ERROR,
     InvalidQueryParameter: status.HTTP_400_BAD_REQUEST,
     ResponseValidationError: status.HTTP_500_INTERNAL_SERVER_ERROR,
-    UnauthorizedException: status.HTTP_401_UNAUTHORIZED,
+    UnauthorizedError: status.HTTP_401_UNAUTHORIZED,
 }
 
 
@@ -60,8 +62,8 @@ def exception_handler_factory(status_code: int) -> Callable:
     """
 
     def handler(request: Request, exc: Exception):
-        """I handle exceptions!!."""
-        logger.error(exc, exc_info=True)
+        """Handle exceptions in a uniform way."""
+        logger.error(f"Exception: {exc} - Path: {request.url} - Method: {request.method}")
         return JSONResponse(
             content=ErrorResponse(code=exc.__class__.__name__, description=str(exc)),
             status_code=status_code,
@@ -85,28 +87,16 @@ def add_exception_handlers(
     for exc, code in status_codes.items():
         app.add_exception_handler(exc, exception_handler_factory(code))
 
-    # By default FastAPI will return 422 status codes for invalid requests
-    # But the STAC api spec suggests returning a 400 in this case
+    # Customize handling of request validation errors
     def request_validation_exception_handler(
         request: Request, exc: RequestValidationError
     ) -> JSONResponse:
+        logger.error(f"Validation Error: {exc} - Path: {request.url} - Method: {request.method}")
         return JSONResponse(
-            content=ErrorResponse(code=exc.__class__.__name__, description=str(exc)),
+            content=ErrorResponse(code=exc.__class__.__name__, description="Invalid request format"),
             status_code=status.HTTP_400_BAD_REQUEST,
         )
 
     app.add_exception_handler(
         RequestValidationError, request_validation_exception_handler
     )
-
-    async def http_exception_handler(request: Request, exc: HTTPException):
-        logger.error(
-            f"HTTP Exception: {exc.detail} - Path: {request.url} - Method: {request.method}",
-            extra={"request_id": request.headers.get("X-Request-ID", "N/A")},
-        )
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"detail": exc.detail},
-        )
-
-    app.add_exception_handler(HTTPException, http_exception_handler)

@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request ,HTTPException, status
 from fastapi.security.utils import get_authorization_scheme_param
 from stac_fastapi.api.auth import verify_token
+from stac_fastapi.api.errors import UnauthorizedError
+
 
 class AuthMiddleware:
     """
@@ -18,23 +20,15 @@ class AuthMiddleware:
             if path not in excluded_paths:
                 auth_header = request.headers.get("Authorization")
                 if not auth_header:
-                    raise HTTPException(
-                        status_code=status.HTTP_401_UNAUTHORIZED,
-                        detail="Authorization header missing",
-                        headers={"WWW-Authenticate": "Bearer"},
-                    )
+                    raise UnauthorizedError("Authorization header missing")
 
                 scheme, token = get_authorization_scheme_param(auth_header)
                 if not token or scheme.lower() != "bearer":
-                    raise HTTPException(
-                        status_code=status.HTTP_401_UNAUTHORIZED,
-                        detail="Invalid authentication scheme",
-                        headers={"WWW-Authenticate": "Bearer"},
-                    )
+                    raise UnauthorizedError("Invalid authentication scheme")
 
                 try:
                     verify_token(token)
-                except HTTPException as e:
+                except UnauthorizedError as e:
                     raise e
 
         await self.app(scope, receive, send)
