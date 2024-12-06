@@ -15,29 +15,17 @@ class AuthMiddleware:
             request = Request(scope, receive, send)
             path = scope.get("path", "")
 
-            if scope["method"] in ["POST", "PUT", "DELETE"]:
-                excluded_paths = ["/auth/token", "/docs", "/openapi.json"]
-                if path not in excluded_paths:
-                    auth_header = request.headers.get("Authorization")
-                    if not auth_header:
-                        raise HTTPException(
-                            status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="Authorization header missing",
-                            headers={"WWW-Authenticate": "Bearer"},
-                        )
+            excluded_paths = ["/auth/token", "/docs", "/openapi.json"]
+            if path not in excluded_paths:
+                auth_header = request.headers.get("Authorization")
+                if not auth_header:
+                    raise UnauthorizedError("Authorization header missing")
 
-                    scheme, token = get_authorization_scheme_param(auth_header)
-                    if not token or scheme.lower() != "bearer":
-                        raise HTTPException(
-                            status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="Invalid authentication scheme",
-                            headers={"WWW-Authenticate": "Bearer"},
-                        )
+                scheme, token = get_authorization_scheme_param(auth_header)
+                if not token or scheme.lower() != "bearer":
+                    raise UnauthorizedError("Invalid authentication scheme")
 
-                    try:
-                        verify_token(token)
-                    except HTTPException as e:
-                        raise e
+                verify_token(token)
 
         await self.app(scope, receive, send)
 
