@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request ,HTTPException, status
 from fastapi.security.utils import get_authorization_scheme_param
-from stac_fastapi.api.auth import verify_token
-from stac_fastapi.api.errors import UnauthorizedError
+from stac_fastapi.types.errors import UnauthorizedError
 
 class AuthMiddleware:
     """
@@ -25,10 +24,7 @@ class AuthMiddleware:
                 if not token or scheme.lower() != "bearer":
                     raise UnauthorizedError("Invalid authentication scheme")
 
-                try:
-                    verify_token(token)
-                except UnauthorizedError as e:
-                    raise e
+                verify_token(token)
 
         await self.app(scope, receive, send)
 
