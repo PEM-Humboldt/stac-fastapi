@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request ,HTTPException, status
 from fastapi.security.utils import get_authorization_scheme_param
 from stac_fastapi.types.errors import UnauthorizedError
+from stac_fastapi.api.auth import verify_token
 
 class AuthMiddleware:
     """
