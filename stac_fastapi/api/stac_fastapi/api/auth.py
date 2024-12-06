@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta, timezone
+from typing import Dict
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError, ExpiredSignatureError
@@ -24,11 +26,11 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return {"access_token": access_token}
 
-def create_access_token(data: dict):
+def create_access_token(data: Dict[str, str]) -> str:
     expires_delta = timedelta(minutes=settings.access_token_expire_minutes)
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + expires_delta
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": expire.isoformat()})
     encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
     return encoded_jwt
 
