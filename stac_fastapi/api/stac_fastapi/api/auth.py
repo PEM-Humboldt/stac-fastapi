@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError, ExpiredSignatureError
 from jose.exceptions import JWTClaimsError
 
+from stac_fastapi.types.errors import UnauthorizedError
 from stac_fastapi.types.config import ApiSettings
 
 settings = ApiSettings()
@@ -19,11 +20,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
 
     if form_data.username != settings.user_username or form_data.password != settings.user_password:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        raise UnauthorizedError("Incorrect username or password")
     access_token = create_access_token(
         data={"sub": form_data.username}
     )
@@ -41,15 +38,7 @@ def verify_token(token: str):
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
         if payload is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+            raise UnauthorizedError("Could not validate credentials")
         return payload
-    except JWTError|ExpiredSignatureError|JWTClaimsError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Error decoding token: {str(e)}",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    except (JWTError,ExpiredSignatureError,JWTClaimsError) as e:
+        raise UnauthorizedError(f"Error decoding token: {str(e)}")

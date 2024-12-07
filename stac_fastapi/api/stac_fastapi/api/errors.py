@@ -8,17 +8,16 @@ from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-
 from stac_fastapi.types.errors import (
     ConflictError,
     DatabaseError,
     ForeignKeyError,
     InvalidQueryParameter,
     NotFoundError,
+    UnauthorizedError,
 )
 
 logger = logging.getLogger(__name__)
-
 
 DEFAULT_STATUS_CODES = {
     NotFoundError: status.HTTP_404_NOT_FOUND,
@@ -28,6 +27,7 @@ DEFAULT_STATUS_CODES = {
     Exception: status.HTTP_500_INTERNAL_SERVER_ERROR,
     InvalidQueryParameter: status.HTTP_400_BAD_REQUEST,
     ResponseValidationError: status.HTTP_500_INTERNAL_SERVER_ERROR,
+    UnauthorizedError: status.HTTP_401_UNAUTHORIZED,
 }
 
 
@@ -61,7 +61,7 @@ def exception_handler_factory(status_code: int) -> Callable:
         logger.error(exc, exc_info=True)
         return JSONResponse(
             content=ErrorResponse(code=exc.__class__.__name__, description=str(exc)),
-            status_code=status_code,
+            status_code=DEFAULT_STATUS_CODES.get(type(exc), status_code),
         )
 
     return handler
@@ -95,4 +95,3 @@ def add_exception_handlers(
     app.add_exception_handler(
         RequestValidationError, request_validation_exception_handler
     )
-
