@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError, ExpiredSignatureError
 from jose.exceptions import JWTClaimsError
 
-from stac_fastapi.api.errors import UnauthorizedError
+from stac_fastapi.types.errors import UnauthorizedError
 from stac_fastapi.types.config import ApiSettings
 
 settings = ApiSettings()
@@ -40,5 +40,5 @@ def verify_token(token: str):
         if payload is None:
             raise UnauthorizedError("Could not validate credentials")
         return payload
-    except JWTError|ExpiredSignatureError|JWTClaimsError as e:
+    except (JWTError,ExpiredSignatureError,JWTClaimsError) as e:
         raise UnauthorizedError(f"Error decoding token: {str(e)}")
