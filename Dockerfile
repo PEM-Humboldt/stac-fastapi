@@ -18,7 +18,7 @@ RUN python -m pip install /app/stac_fastapi/types \
                           /app/stac_fastapi/api \
                           /app/stac_fastapi/extensions
 
-RUN python -m pip install --no-deps stac-fastapi.pgstac
+RUN python -m pip install --no-deps stac-fastapi.pgstac==3.0.0
 
 RUN python -m pip install -r /app/requirements.pgstac.txt
 

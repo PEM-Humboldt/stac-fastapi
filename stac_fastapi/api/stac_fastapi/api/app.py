@@ -31,6 +31,8 @@ from stac_fastapi.types.config import ApiSettings, Settings
 from stac_fastapi.types.core import AsyncBaseCoreClient, BaseCoreClient
 from stac_fastapi.types.extension import ApiExtension
 from stac_fastapi.types.search import BaseSearchGetRequest, BaseSearchPostRequest
+from stac_fastapi.api.auth import auth_router
+from stac_fastapi.api.AuthMiddleware import AuthMiddleware
 
 
 @attr.s
@@ -113,6 +115,7 @@ class StacApi:
     middlewares: List[Middleware] = attr.ib(
         default=attr.Factory(
             lambda: [
+                Middleware(AuthMiddleware),
                 Middleware(BrotliMiddleware),
                 Middleware(CORSMiddleware),
                 Middleware(ProxyHeaderMiddleware),
@@ -386,6 +389,8 @@ class StacApi:
         self.register_get_collections()
         self.register_get_collection()
         self.register_get_item_collection()
+        self.router.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+
 
     def customize_openapi(self) -> Optional[Dict[str, Any]]:
         """Customize openapi schema."""

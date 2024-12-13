@@ -6,4 +6,6 @@ asyncpg
 buildpg
 brotli_asgi
 pygeofilter>=0.2
-pypgstac>=0.8,<0.10
+pypgstac==0.8.*
+python-jose>=3.3.0
+python-multipart
