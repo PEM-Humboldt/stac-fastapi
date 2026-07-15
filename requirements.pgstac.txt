@@ -8,6 +8,6 @@ asyncpg==0.29.0
 buildpg==0.4
 brotli-asgi==1.4.0
 pygeofilter==0.2.0
-pypgstac==0.8.4
+pypgstac[psycopg]==0.8.4
 python-jose==3.3.0
 python-multipart==0.0.9

@@ -23,3 +23,8 @@ RUN python -m pip install --no-deps stac-fastapi.pgstac==3.0.0
 RUN python -m pip install -r /app/requirements.pgstac.txt
 
 RUN python -m pip install uvicorn
+
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
