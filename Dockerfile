@@ -1,4 +1,4 @@
-FROM python:3.11-slim as base
+FROM public.ecr.aws/docker/library/python:3.11-slim as base
 
 RUN apt-get update && \
     apt-get -y upgrade && \
