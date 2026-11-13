@@ -1,7 +1,13 @@
+import os
+
 from fastapi import FastAPI, Request ,HTTPException, status
 from fastapi.security.utils import get_authorization_scheme_param
 from stac_fastapi.types.errors import UnauthorizedError
 from stac_fastapi.api.auth import verify_token
+
+
+ROOT_PATH = os.environ.get("ROOT_PATH", "").rstrip("/")
+
 
 class AuthMiddleware:
     """
@@ -12,6 +18,15 @@ class AuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
+            if ROOT_PATH:
+                path = scope.get("path", "")
+                if path == ROOT_PATH:
+                    scope["path"] = "/"
+                    scope["raw_path"] = b"/"
+                elif path.startswith(ROOT_PATH + "/"):
+                    scope["path"] = path[len(ROOT_PATH):]
+                    scope["raw_path"] = scope["path"].encode("utf-8")
+
             request = Request(scope, receive, send)
             path = scope.get("path", "")
 
@@ -29,4 +44,3 @@ class AuthMiddleware:
                     verify_token(token)
 
         await self.app(scope, receive, send)
-
