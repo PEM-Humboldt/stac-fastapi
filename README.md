@@ -42,4 +42,4 @@ Seguir los siguientes pasos:
 
 ## Observaciones importantes
 
-No seguimimos las instrucciones en `RELEASING.md` para evitar generar conflictos innecesarios cuando se actualiza la rama base.
+No seguimos las instrucciones en `RELEASING.md` para evitar generar conflictos innecesarios cuando se actualiza la rama base.
