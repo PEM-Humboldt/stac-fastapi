@@ -20,7 +20,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"biotablero-stac-fastapi","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"stac-fastapi-service-e1vx9ki8","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
   post_build:
     commands:
       - echo "Assuming cross account role..."
@@ -30,6 +30,6 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=$(echo $CREDS | awk '{print $2}')
       - export AWS_SESSION_TOKEN=$(echo $CREDS | awk '{print $3}')
       - echo "Deploying to ECS..."
-      - aws ecs update-service --cluster arn:aws:ecs:us-east-1:005235113454:cluster/humbolt-cluster-dev  --service biotablero-stac-fastapi --force-new-deployment
+      - aws ecs update-service --cluster arn:aws:ecs:us-east-1:005235113454:cluster/humbolt-cluster-dev  --service stac-fastapi-service-e1vx9ki8 --force-new-deployment
 artifacts:
     files: imagedefinitions.json
