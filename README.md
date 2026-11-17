@@ -39,3 +39,7 @@ Seguir los siguientes pasos:
     ````
 
 1. Comprobar el funcionamiento correcto del servirdor: http://localhost:8082
+
+## Observaciones importantes
+
+No seguimimos las instrucciones en `RELEASING.md` para evitar generar conflictos innecesarios cuando se actualiza la rama base.
