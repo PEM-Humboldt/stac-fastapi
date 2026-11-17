@@ -24,7 +24,4 @@ RUN python -m pip install -r /app/requirements.pgstac.txt
 
 RUN python -m pip install uvicorn
 
-COPY scripts/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sh", "-c", "exec uvicorn stac_fastapi.pgstac.app:app --host ${APP_HOST:-0.0.0.0} --port ${APP_PORT:-8082} --workers ${WEB_CONCURRENCY:-3} --root-path ${ROOT_PATH:-} --proxy-headers --forwarded-allow-ips=${FORWARDED_ALLOW_IPS:-*}"]

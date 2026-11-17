@@ -1,12 +1,14 @@
-**Related Issue(s):**
+> Remove all lines starting with > before creatign the PR
+## 🛠️ Changes
+> List or describe changes in this PR (this could easly be a summary of the commits messages)
 
-- #
+## 📝 Associated issues
+> List the associated issues/tasks
+> - If the issue is in the same repo just write `#` and start writing the issue id or description, GitHub will show options to select the desired issue
+> - If the issue is in another repo, make a normal link `[issue id](issue link)`
 
-**Description:**
+## 🤔 Considerations
+> Write if it's necessary to make data modifications or other special things to test these changes
 
-**PR Checklist:**
-
-- [ ] `pre-commit` hooks pass locally
-- [ ] Tests pass (run `make test`)
-- [ ] Documentation has been updated to reflect changes, if applicable, and docs build successfully (run `make docs`)
-- [ ] Changes are added to the [CHANGELOG](https://github.com/stac-utils/stac-fastapi/blob/main/CHANGES.md).
+## ✅ Checks
+> List of additional checks for a development. For example, update the docs.
