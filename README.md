@@ -1,5 +1,7 @@
 # STAC FAST-API IAvH
 
+v 3.0.0-iavh-3.1.0
+
 Este repsositorio es un fork de [stac-fastapi](https://github.com/stac-utils/stac-fastapi) creado por el Instituto de Investigación de Recursos Biológicos Alexander von Humboldt .
 
 Utiliza Docker para la instalación del servidor. La creación del archivo [docker-compose-io.yml](docker-compose-io.yml) y las modificaciones al archivo [Dockerfile](Dockerfile) se basan en las configuraciones realizadas en el fork de stac-fastapi creado por [Biodiversite Quebec](https://github.com/BiodiversiteQuebec/stac-fastapi).
@@ -20,8 +22,8 @@ Seguir los siguientes pasos:
     ACCESS_TOKEN_EXPIRE_MINUTES=# Tiempo en minutos para la expiración del token
     ```
    Nota: Para generar la llave secreta es necesario ejecutar esto en CMD o terminal de linux, adicional de tener una version de Python mayor a 3.6 instalada:
-   **Nota importante**: el usuario y la contraseña utilizados para la autenticación deben ser los mismos que se usen en el archivo .env de stac-data-tools para poder usar las herramienta de allí en el servidor que se desplega con esto 
-   
+   **Nota importante**: el usuario y la contraseña utilizados para la autenticación deben ser los mismos que se usen en el archivo .env de stac-data-tools para poder usar las herramienta de allí en el servidor que se desplega con esto
+
    ```
    python -c "import secrets; print(secrets.token_hex(32))"
    ```
